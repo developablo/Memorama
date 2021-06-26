@@ -1,6 +1,18 @@
 .card-container {
     background-color: antiquewhite;
     border-radius: 1rem;
-    height: 6rem;
     width: 5rem;
+    height: 6rem;
+
+    .card-body {
+        height: 100%;
+        width: 100%;
+        background-color: transparent;
+        border: none;
+
+        .card-image {
+            max-width:  4rem;
+            max-height: 5rem;
+        }
+    }
 }
