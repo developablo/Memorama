@@ -1,79 +1,103 @@
 import { Component, OnInit } from '@angular/core';
 import { Card } from '../../models/card.model';
+import { Player } from '../../models/player.model';
+import { PlayerService } from '../../services/player.service';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.scss']
+  styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit {
-
   private availableCards: Card[] = [
     {
       id: 1,
       revealed: false,
       imageUrl: 'assets/images/arrow.svg',
-      cardName: 'Flecha'
+      cardName: 'Flecha',
     },
     {
       id: 2,
       revealed: false,
       imageUrl: 'assets/images/brush.svg',
-      cardName: 'Pincel'
+      cardName: 'Pincel',
     },
     {
       id: 3,
       revealed: false,
       imageUrl: 'assets/images/camera.svg',
-      cardName: 'Cámara'
+      cardName: 'Cámara',
     },
     {
       id: 4,
       revealed: false,
       imageUrl: 'assets/images/fish.svg',
-      cardName: 'Pez'
+      cardName: 'Pez',
     },
     {
       id: 5,
       revealed: false,
       imageUrl: 'assets/images/laptop.svg',
-      cardName: 'Laptop'
+      cardName: 'Laptop',
     },
     {
       id: 6,
       revealed: false,
       imageUrl: 'assets/images/lightbulb.svg',
-      cardName: 'Lámpara'
+      cardName: 'Lámpara',
     },
     {
       id: 7,
       revealed: false,
       imageUrl: 'assets/images/mortarboard-hat.svg',
-      cardName: 'Bonete'
+      cardName: 'Bonete',
     },
     {
       id: 8,
       revealed: false,
       imageUrl: 'assets/images/owl.svg',
-      cardName: 'Buho'
+      cardName: 'Buho',
     },
     {
       id: 9,
       revealed: false,
       imageUrl: 'assets/images/popsicles.svg',
-      cardName: 'Helados'
+      cardName: 'Helados',
     },
     {
       id: 10,
       revealed: false,
       imageUrl: 'assets/images/flower.svg',
-      cardName: 'Flor'
-    }
-  ]
-  public cards: Card[] = [this.availableCards[0],this.availableCards[1],this.availableCards[2],this.availableCards[3],this.availableCards[4],this.availableCards[5],this.availableCards[6],this.availableCards[7],this.availableCards[8],this.availableCards[9]]
-  constructor() { }
+      cardName: 'Flor',
+    },
+  ];
+  public cards: Card[] = [
+    { ...this.availableCards[0] },
+    { ...this.availableCards[1] },
+    { ...this.availableCards[2] },
+    { ...this.availableCards[3] },
+    { ...this.availableCards[4] },
+    { ...this.availableCards[5] },
+    { ...this.availableCards[6] },
+    { ...this.availableCards[7] },
+    { ...this.availableCards[8] },
+    { ...this.availableCards[9] },
+    { ...this.availableCards[0] },
+    { ...this.availableCards[1] },
+    { ...this.availableCards[2] },
+    { ...this.availableCards[3] },
+    { ...this.availableCards[4] },
+    { ...this.availableCards[5] },
+    { ...this.availableCards[6] },
+    { ...this.availableCards[7] },
+    { ...this.availableCards[8] },
+    { ...this.availableCards[9] },
+  ];
 
-  ngOnInit(): void {
+  public currentPlayer: Player;
+  constructor(private playerService: PlayerService) {}
+
+  public ngOnInit(): void {
+    this.playerService.currentPlayer.subscribe(res=> this.currentPlayer = res);
   }
-
 }
