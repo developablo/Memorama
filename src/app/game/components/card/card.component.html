@@ -1,5 +1,5 @@
 <div class="card-container">
-    <button class="card-body" (click)="reveal()">
-        <img *ngIf="revealed" class="card-image" src="assets/images/arrow.svg" alt="">
+    <button *ngIf="this.card" class="card-body" (click)="reveal()">
+        <img *ngIf="this.card.revealed" class="card-image" [src]="this.card.imageUrl" [alt]="this.card.cardName">
     </button>
 </div>

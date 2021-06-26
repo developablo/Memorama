@@ -1,7 +1,7 @@
 <div class="board-container">
     <h1 class="players-turn">Turno de jugador X</h1>
     <div class="main-board">
-        <app-card *ngFor="let card of cards"></app-card>
+        <app-card *ngFor="let card of cards" [card]='card'></app-card>
     </div>
     <p>Tiempo restante: </p>
     <div class="score">
