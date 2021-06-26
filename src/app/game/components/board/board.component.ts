@@ -33,19 +33,22 @@ export class BoardComponent implements OnInit {
   }
 
   public checkMatch(cardId: number): void {
-    if (!this.previouslySelected) {
-      this.previouslySelected = cardId;
-    } else {
-      const success = this.previouslySelected === cardId;
-      this.endTurn(success);
-      if (!success)
-        this.cards
-          .filter(
-            (card) => card.id === cardId || card.id === this.previouslySelected
-          )
-          .forEach((card) => (card.revealed = false));
-      this.previouslySelected = null;
-    }
+    setTimeout(() => {
+      if (!this.previouslySelected) {
+        this.previouslySelected = cardId;
+      } else {
+        const success = this.previouslySelected === cardId;
+        this.endTurn(success);
+        if (!success)
+          this.cards
+            .filter(
+              (card) =>
+                card.id === cardId || card.id === this.previouslySelected
+            )
+            .forEach((card) => (card.revealed = false));
+        this.previouslySelected = null;
+      }
+    }, 1000);
   }
 
   private endTurn(success: boolean) {

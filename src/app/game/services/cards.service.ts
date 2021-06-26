@@ -94,7 +94,22 @@ export class CardsService {
   constructor() {}
 
   public dealHand(): Observable<Card[]> {
-    return of(this.cards);
+    const cardsArray: Card[] = [];
+    const totalCardsAmount = 20;
+    const takenIndex: Number[] = [];
+    this.availableCards.forEach((card) => {
+      let firstIndex = Math.floor(Math.random() * totalCardsAmount);
+      while (takenIndex.includes(firstIndex))
+        firstIndex = Math.floor(Math.random() * totalCardsAmount);
+      takenIndex.push(firstIndex);
+      let secondIndex = Math.floor(Math.random() * totalCardsAmount);
+      while (takenIndex.includes(secondIndex))
+        secondIndex = Math.floor(Math.random() * totalCardsAmount);
+      takenIndex.push(secondIndex);
+      cardsArray[firstIndex] = { ...card };
+      cardsArray[secondIndex] = { ...card };
+    });
+    return of(cardsArray);
   }
 
   public checkRevealed(cards: Card[]): Boolean {
