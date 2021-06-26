@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Card } from '../../models/card.model';
 import { Player } from '../../models/player.model';
+import { CardsService } from '../../services/cards.service';
 import { PlayerService } from '../../services/player.service';
 
 @Component({
@@ -9,104 +10,24 @@ import { PlayerService } from '../../services/player.service';
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit {
-  private availableCards: Card[] = [
-    {
-      id: 1,
-      revealed: false,
-      imageUrl: 'assets/images/arrow.svg',
-      cardName: 'Flecha',
-    },
-    {
-      id: 2,
-      revealed: false,
-      imageUrl: 'assets/images/brush.svg',
-      cardName: 'Pincel',
-    },
-    {
-      id: 3,
-      revealed: false,
-      imageUrl: 'assets/images/camera.svg',
-      cardName: 'Cámara',
-    },
-    {
-      id: 4,
-      revealed: false,
-      imageUrl: 'assets/images/fish.svg',
-      cardName: 'Pez',
-    },
-    {
-      id: 5,
-      revealed: false,
-      imageUrl: 'assets/images/laptop.svg',
-      cardName: 'Laptop',
-    },
-    {
-      id: 6,
-      revealed: false,
-      imageUrl: 'assets/images/lightbulb.svg',
-      cardName: 'Lámpara',
-    },
-    {
-      id: 7,
-      revealed: false,
-      imageUrl: 'assets/images/mortarboard-hat.svg',
-      cardName: 'Bonete',
-    },
-    {
-      id: 8,
-      revealed: false,
-      imageUrl: 'assets/images/owl.svg',
-      cardName: 'Buho',
-    },
-    {
-      id: 9,
-      revealed: false,
-      imageUrl: 'assets/images/popsicles.svg',
-      cardName: 'Helados',
-    },
-    {
-      id: 10,
-      revealed: false,
-      imageUrl: 'assets/images/flower.svg',
-      cardName: 'Flor',
-    },
-  ];
-  public cards: Card[] = [
-    { ...this.availableCards[0] },
-    { ...this.availableCards[1] },
-    { ...this.availableCards[2] },
-    { ...this.availableCards[3] },
-    { ...this.availableCards[4] },
-    { ...this.availableCards[5] },
-    { ...this.availableCards[6] },
-    { ...this.availableCards[7] },
-    { ...this.availableCards[8] },
-    { ...this.availableCards[9] },
-    { ...this.availableCards[0] },
-    { ...this.availableCards[1] },
-    { ...this.availableCards[2] },
-    { ...this.availableCards[3] },
-    { ...this.availableCards[4] },
-    { ...this.availableCards[5] },
-    { ...this.availableCards[6] },
-    { ...this.availableCards[7] },
-    { ...this.availableCards[8] },
-    { ...this.availableCards[9] },
-  ];
-
   public currentPlayer: Player;
   public scores: { id: number; score: number }[] = [
     { id: 1, score: 0 },
     { id: 2, score: 0 },
   ];
   private previouslySelected: number;
-  public gameResult: string = 'Victoria del Jugador 1!';
-  constructor(private playerService: PlayerService) {}
+  public gameResult: string = null;
+  public cards: Card[] = [];
+  constructor(
+    private playerService: PlayerService,
+    private cardsService: CardsService
+  ) {}
 
   public ngOnInit(): void {
     this.playerService.currentPlayer.subscribe(
       (res) => (this.currentPlayer = res)
     );
+    this.cardsService.dealHand().subscribe((res) => (this.cards = res));
   }
 
   public checkMatch(cardId: number): void {
@@ -134,13 +55,24 @@ export class BoardComponent implements OnInit {
     } else {
       this.playerService.togglePlayer();
     }
+    if (this.cardsService.checkRevealed(this.cards)) this.endGame();
   }
 
   public reset(): void {
     this.scores.forEach((player) => (player.score = 0));
     this.playerService.resetScores();
     this.cards.forEach((card) => (card.revealed = false));
+    this.gameResult = null;
   }
 
-  private endGame(): void {}
+  private endGame(): void {
+    if (this.scores[0].score === this.scores[1].score) {
+      this.gameResult = 'Es un empate!';
+    } else {
+      this.gameResult =
+        this.scores[0].score > this.scores[1].score
+          ? `Ha ganado el Jugador 1 con ${this.scores[0].score} puntos!`
+          : `Ha ganado el Jugador 2 con ${this.scores[1].score} puntos!`;
+    }
+  }
 }

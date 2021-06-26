@@ -1,5 +1,5 @@
 <div class="board-container">
-    <h1 class="players-turn">Turno de jugador X</h1>
+    <h1 class="players-turn">Turno de jugador {{currentPlayer.id}}</h1>
     <div class="main-board">
         <app-card *ngFor="let card of cards" [card]='card' (selected)='checkMatch($event)'></app-card>
         <div class="end-game-modal" *ngIf="gameResult">
