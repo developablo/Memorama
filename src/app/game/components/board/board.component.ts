@@ -95,9 +95,34 @@ export class BoardComponent implements OnInit {
   ];
 
   public currentPlayer: Player;
+  public scores: { id: number; score: number }[] = [
+    { id: 1, score: 0 },
+    { id: 2, score: 0 },
+  ];
+  private previouslySelected: number;
   constructor(private playerService: PlayerService) {}
 
   public ngOnInit(): void {
-    this.playerService.currentPlayer.subscribe(res=> this.currentPlayer = res);
+    this.playerService.currentPlayer.subscribe(
+      (res) => (this.currentPlayer = res)
+    );
+  }
+
+  public checkMatch(cardId: number): void {
+    if (!this.previouslySelected) {
+      this.previouslySelected = cardId;
+    } else {
+      this.endTurn(this.previouslySelected === cardId);
+      this.previouslySelected = null;
+    }
+  }
+
+  private endTurn(success: boolean) {
+    if (success) {
+      this.currentPlayer.score += 1;
+      this.scores.find(player=>player.id === this.currentPlayer.id).score += 1;
+    } else {
+      this.playerService.togglePlayer();
+    }
   }
 }

@@ -11,4 +11,8 @@ export class PlayerService {
   public currentPlayer: BehaviorSubject<Player> = new BehaviorSubject(this.player1);
 
   constructor() { }
+
+  public togglePlayer(){
+    this.currentPlayer.next(this.currentPlayer.value === this.player1? this.player2: this.player1);
+  }
 }

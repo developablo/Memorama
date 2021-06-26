@@ -1,16 +1,16 @@
 <div class="board-container">
     <h1 class="players-turn">Turno de jugador X</h1>
     <div class="main-board">
-        <app-card *ngFor="let card of cards" [card]='card'></app-card>
+        <app-card *ngFor="let card of cards" [card]='card' (selected)='checkMatch($event)'></app-card>
     </div>
     <p>Tiempo restante: </p>
     <div class="score">
         <h2>Puntajes</h2>
         <div class="score__player-one">
-            <p>Jugador 1: 0</p>
+            <p>Jugador 1: {{scores[0].score}}</p>
         </div>
         <div class="score__player-two">
-            <p>Jugador 2: 0</p>
+            <p>Jugador 2: {{scores[1].score}}</p>
         </div>
     </div>
     <button>Reiniciar</button>

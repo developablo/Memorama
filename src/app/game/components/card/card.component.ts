@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Card } from '../../models/card.model';
 
 @Component({
@@ -8,6 +8,7 @@ import { Card } from '../../models/card.model';
 })
 export class CardComponent implements OnInit {
   @Input() card: Card;
+  @Output() selected: EventEmitter<Number> = new EventEmitter<Number>()
 
   constructor() { }
 
@@ -16,6 +17,7 @@ export class CardComponent implements OnInit {
 
   public reveal():void {
     this.card.revealed = true
+    this.selected.emit(this.card.id);
   }
 
 }
