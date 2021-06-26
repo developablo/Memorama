@@ -18,6 +18,7 @@ export class BoardComponent implements OnInit {
   private previouslySelected: number;
   public gameResult: string = null;
   public cards: Card[] = [];
+  public timeLeft: number = 10;
   constructor(
     private playerService: PlayerService,
     private cardsService: CardsService
@@ -28,6 +29,7 @@ export class BoardComponent implements OnInit {
       (res) => (this.currentPlayer = res)
     );
     this.cardsService.dealHand().subscribe((res) => (this.cards = res));
+    setInterval(() => this.timeControl(), 1000);
   }
 
   public checkMatch(cardId: number): void {
@@ -55,6 +57,7 @@ export class BoardComponent implements OnInit {
     } else {
       this.playerService.togglePlayer();
     }
+    this.timeLeft = 10;
     if (this.cardsService.checkRevealed(this.cards)) this.endGame();
   }
 
@@ -73,6 +76,15 @@ export class BoardComponent implements OnInit {
         this.scores[0].score > this.scores[1].score
           ? `Ha ganado el Jugador 1 con ${this.scores[0].score} puntos!`
           : `Ha ganado el Jugador 2 con ${this.scores[1].score} puntos!`;
+    }
+    this.timeLeft = 0;
+  }
+
+  private timeControl() {
+    if (this.timeLeft <= 0) {
+      this.endTurn(false);
+    } else {
+      this.timeLeft -= 1;
     }
   }
 }
