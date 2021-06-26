@@ -1,1 +1,17 @@
-<p>board works!</p>
+<div class="board-container">
+    <h1 class="players-turn">Turno de jugador X</h1>
+    <div class="main-board">
+        <app-card *ngFor="let card of cards"></app-card>
+    </div>
+    <p>Tiempo restante: </p>
+    <div class="score">
+        <h2>Puntajes</h2>
+        <div class="score__player-one">
+            <p>Jugador 1: 0</p>
+        </div>
+        <div class="score__player-two">
+            <p>Jugador 2: 0</p>
+        </div>
+    </div>
+    <button>Reiniciar</button>
+</div>

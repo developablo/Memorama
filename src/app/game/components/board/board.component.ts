@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BoardComponent implements OnInit {
 
+  public cards: string[] = ['A','B','C','D','E','F','G','H','I','J','A','B','C','D','E','F','G','H','I','J']
   constructor() { }
 
   ngOnInit(): void {
