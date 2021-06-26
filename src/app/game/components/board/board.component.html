@@ -2,6 +2,10 @@
     <h1 class="players-turn">Turno de jugador X</h1>
     <div class="main-board">
         <app-card *ngFor="let card of cards" [card]='card' (selected)='checkMatch($event)'></app-card>
+        <div class="end-game-modal" *ngIf="gameResult">
+          <h1>El juego ha terminado!</h1>
+          <p>Resultado: {{gameResult}}</p>
+        </div>
     </div>
     <p>Tiempo restante: </p>
     <div class="score">

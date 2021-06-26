@@ -1,5 +1,17 @@
 .main-board {
-    display: grid;
-    grid-template-columns: repeat(4, 5.1rem);
+  display: grid;
+  grid-template-columns: repeat(4, 5.1rem);
   grid-template-rows: repeat(5, 6.1rem);
+  width: 21rem;
+}
+
+.end-game-modal {
+  position: absolute;
+  background: rgba(240, 248, 255, 0.527);
+  width: 21rem;
+  height: 31rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

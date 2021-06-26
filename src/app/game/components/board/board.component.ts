@@ -100,6 +100,7 @@ export class BoardComponent implements OnInit {
     { id: 2, score: 0 },
   ];
   private previouslySelected: number;
+  public gameResult: string = 'Victoria del Jugador 1!';
   constructor(private playerService: PlayerService) {}
 
   public ngOnInit(): void {
@@ -112,9 +113,14 @@ export class BoardComponent implements OnInit {
     if (!this.previouslySelected) {
       this.previouslySelected = cardId;
     } else {
-      const success = this.previouslySelected === cardId
+      const success = this.previouslySelected === cardId;
       this.endTurn(success);
-      if(!success) this.cards.filter(card=>card.id === cardId || card.id === this.previouslySelected).forEach(card=>card.revealed= false)
+      if (!success)
+        this.cards
+          .filter(
+            (card) => card.id === cardId || card.id === this.previouslySelected
+          )
+          .forEach((card) => (card.revealed = false));
       this.previouslySelected = null;
     }
   }
@@ -122,15 +128,19 @@ export class BoardComponent implements OnInit {
   private endTurn(success: boolean) {
     if (success) {
       this.currentPlayer.score += 1;
-      this.scores.find(player=>player.id === this.currentPlayer.id).score += 1;
+      this.scores.find(
+        (player) => player.id === this.currentPlayer.id
+      ).score += 1;
     } else {
       this.playerService.togglePlayer();
     }
   }
 
-  public reset():void {
-    this.scores.forEach(player => player.score = 0)
+  public reset(): void {
+    this.scores.forEach((player) => (player.score = 0));
     this.playerService.resetScores();
-    this.cards.forEach(card => card.revealed = false)
+    this.cards.forEach((card) => (card.revealed = false));
   }
+
+  private endGame(): void {}
 }
