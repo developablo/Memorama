@@ -112,7 +112,9 @@ export class BoardComponent implements OnInit {
     if (!this.previouslySelected) {
       this.previouslySelected = cardId;
     } else {
-      this.endTurn(this.previouslySelected === cardId);
+      const success = this.previouslySelected === cardId
+      this.endTurn(success);
+      if(!success) this.cards.filter(card=>card.id === cardId || card.id === this.previouslySelected).forEach(card=>card.revealed= false)
       this.previouslySelected = null;
     }
   }
@@ -124,5 +126,11 @@ export class BoardComponent implements OnInit {
     } else {
       this.playerService.togglePlayer();
     }
+  }
+
+  public reset():void {
+    this.scores.forEach(player => player.score = 0)
+    this.playerService.resetScores();
+    this.cards.forEach(card => card.revealed = false)
   }
 }

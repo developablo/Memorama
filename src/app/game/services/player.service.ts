@@ -12,7 +12,13 @@ export class PlayerService {
 
   constructor() { }
 
-  public togglePlayer(){
+  public togglePlayer() {
     this.currentPlayer.next(this.currentPlayer.value === this.player1? this.player2: this.player1);
+  }
+
+  public resetScores() {
+    this.player1.score = 0;
+    this.player2.score = 0;
+    this.currentPlayer.next(this.player1);
   }
 }
