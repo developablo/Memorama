@@ -4,20 +4,21 @@ import { Card } from '../../models/card.model';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+  styleUrls: ['./card.component.scss'],
 })
 export class CardComponent implements OnInit {
   @Input() card: Card;
-  @Output() selected: EventEmitter<Number> = new EventEmitter<Number>()
+  @Input() disabled: Boolean;
+  @Output() selected: EventEmitter<Number> = new EventEmitter<Number>();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  public reveal(): void {
+    if (!this.disabled) {
+      this.card.revealed = true;
+      this.selected.emit(this.card.id);
+    }
   }
-
-  public reveal():void {
-    this.card.revealed = true
-    this.selected.emit(this.card.id);
-  }
-
 }

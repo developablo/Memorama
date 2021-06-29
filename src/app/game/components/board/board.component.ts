@@ -19,6 +19,7 @@ export class BoardComponent implements OnInit {
   public gameResult: string = null;
   public cards: Card[] = [];
   public timeLeft: number = 10;
+  public disabled = false;
   constructor(
     private playerService: PlayerService,
     private cardsService: CardsService
@@ -33,22 +34,26 @@ export class BoardComponent implements OnInit {
   }
 
   public checkMatch(cardId: number): void {
-    setTimeout(() => {
-      if (!this.previouslySelected) {
-        this.previouslySelected = cardId;
-      } else {
-        const success = this.previouslySelected === cardId;
-        this.endTurn(success);
-        if (!success)
+    this.disabled = true;
+    if (!this.previouslySelected) {
+      this.previouslySelected = cardId;
+      this.disabled = false;
+    } else {
+      const success = this.previouslySelected === cardId;
+      setTimeout(() => {
+        if (!success) {
           this.cards
             .filter(
               (card) =>
                 card.id === cardId || card.id === this.previouslySelected
             )
             .forEach((card) => (card.revealed = false));
+        }
+        this.endTurn(success);
         this.previouslySelected = null;
-      }
-    }, 1000);
+        this.disabled = false;
+      }, 1000);
+    }
   }
 
   private endTurn(success: boolean) {
