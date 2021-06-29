@@ -8,7 +8,7 @@ import { Card } from '../../models/card.model';
 })
 export class CardComponent implements OnInit {
   @Input() card: Card;
-  @Input() disabled: Boolean;
+  @Input() disabled: Boolean = false;
   @Output() selected: EventEmitter<Number> = new EventEmitter<Number>();
 
   constructor() {}
